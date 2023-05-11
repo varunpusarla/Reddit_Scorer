@@ -1,3 +1,0 @@
-subreddit,score
-gadgets,281.38709677419354
-sports,1316.6333333333334
