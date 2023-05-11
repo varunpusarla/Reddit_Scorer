@@ -7,19 +7,25 @@ from decouple import config
 
 
 class ExtractDataTask(luigi.Task):
-    """Task to extract data from the Reddit API"""
+    #Task to extract data from the Reddit API
 
+    #api credentials
     client_id = luigi.Parameter()
     client_secret = luigi.Parameter()
     user_agent = luigi.Parameter()
     username = luigi.Parameter()
     password = luigi.Parameter()
+
+    #posts limits
     limit_subreddits = luigi.IntParameter(default=50)
     limit_posts = luigi.IntParameter(default=10)
 
+
+    #save to local file
     def output(self):
         return luigi.LocalTarget(f"reddit_data_{dt.datetime.now().strftime('%Y%m%d%H%M%S')}.txt")
 
+    #task to run api
     def run(self):
         reddit = praw.Reddit(client_id=self.client_id,
                              client_secret=self.client_secret,
@@ -27,10 +33,12 @@ class ExtractDataTask(luigi.Task):
                              password=self.password,
                              user_agent=self.user_agent)
 
+        #top 50 subreddits
         subreddits_list = reddit.subreddits.default(limit=self.limit_subreddits)
 
         results = []
 
+        #looping over subreddits
         for subreddit in subreddits_list:
             top_posts = subreddit.top(limit=self.limit_posts)
             post_scores = []
