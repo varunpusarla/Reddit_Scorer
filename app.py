@@ -64,9 +64,10 @@ class ExtractDataTask(luigi.Task):
                 f.write(f"{result[0]},{result[1]}\n")
 
 
-class RedditPipeline(luigi.WrapperTask):
-    """Wrapper task to run the pipeline"""
+  """Wrapper Task"""
 
+
+class RedditPipeline(luigi.WrapperTask):
     client_id = luigi.Parameter()
     client_secret = luigi.Parameter()
     username = luigi.Parameter()
@@ -93,7 +94,9 @@ if __name__ == '__main__':
     password = config('password', default='')
     limit_subreddits = 50
     limit_posts = 10
-    #
+
+    """Uncomment this whole block in order to use scheduling, or run the file as it as to run the program now only"""
+
     # # Define the task scheduler
     # schedule.every().day.at("06:00").do(luigi.build, [RedditPipeline(client_id=client_id,
     #                                                                  client_secret=client_secret,
